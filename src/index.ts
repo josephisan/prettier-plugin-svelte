@@ -4,6 +4,8 @@ import { ASTNode } from './print/nodes';
 import { embed } from './embed';
 import { snipScriptAndStyleTagContent } from './lib/snipTagContent';
 
+export { printCode } from './printCode';
+
 function locStart(node: any) {
     return node.start;
 }

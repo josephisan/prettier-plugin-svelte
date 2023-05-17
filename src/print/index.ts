@@ -1,3 +1,4 @@
+import { generate } from 'astring';
 import { Doc, doc, FastPath, ParserOptions } from 'prettier';
 import { formattableAttributes, selfClosingTags } from '../lib/elements';
 import { extractAttributes } from '../lib/extractAttributes';
@@ -784,8 +785,12 @@ export function print(path: FastPath, options: ParserOptions, print: PrintFn): D
             ]);
     }
 
-    console.error(JSON.stringify(node, null, 4));
-    throw new Error('unknown node type: ' + node.type);
+    try {
+        return generate(node);
+    } catch (err) {
+        console.error(JSON.stringify(node, null, 4));
+        throw new Error('unknown node type: ' + node.type);
+    }
 }
 
 function assignCommentsToNodes(ast: ASTNode) {
@@ -1370,8 +1375,12 @@ function expandNode(node: any, parent?: any): string {
             return ' ...' + node.argument.name;
     }
 
-    console.error(JSON.stringify(node, null, 4));
-    throw new Error('unknown node type: ' + node.type);
+    try {
+        return generate(node);
+    } catch (err) {
+        console.error(JSON.stringify(node, null, 4));
+        throw new Error('unknown node type: ' + node.type);
+    }
 }
 
 function printComment(node: CommentNode) {
